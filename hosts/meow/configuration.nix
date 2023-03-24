@@ -59,7 +59,7 @@
   };
 
   environment = {
-    systemPackages = with pkgs; [ home-manager ];
+    systemPackages = with pkgs; [ git home-manager ];
   };
 
   users.users = {
