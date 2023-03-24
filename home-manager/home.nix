@@ -20,7 +20,6 @@
       # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.unstable-packages
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -74,7 +73,6 @@
   };
 
   programs.helix = {
-    package = pkgs.unstable.helix;
     enable = true;
 
     settings = {
@@ -97,7 +95,6 @@
   };
 
   programs.zellij =  {
-    package = pkgs.unstable.zellij;
     enable = true;
   };
 
