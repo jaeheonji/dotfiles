@@ -9,7 +9,7 @@
   ];
 
   nixpkgs = {
-    hostPlatform = "x86_64_linux";
+    hostPlatform = "x86_64-linux";
 
     overlays = [
       outputs.overlays.additions
@@ -44,10 +44,12 @@
 
   wsl = {
     enable = true;
-    automountPath = "/mnt";
     defaultUser = "dev";
     startMenuLaunchers = true;
-    wslConf.network.hostname = "meow";
+    wslConf = {
+      automount.root = "/mnt";
+      network.hostname = "meow";
+    };
 
     # Enable native Docker support
     # docker-native.enable = true;
@@ -56,9 +58,9 @@
     # docker-desktop.enable = true;
   };
 
-  # environment = {
-  #   systemPackages = with pkgs; [];
-  # };
+  environment = {
+    systemPackages = with pkgs; [ home-manager ];
+  };
 
   users.users = {
     dev = {
@@ -68,5 +70,5 @@
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "22.05";
+  system.stateVersion = "22.11";
 }
