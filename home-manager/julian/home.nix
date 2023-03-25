@@ -40,10 +40,9 @@
     };
   };
 
-  # TODO: Set your username
   home = {
-    username = "nixos";
-    homeDirectory = "/home/nixos";
+    username = "julian";
+    homeDirectory = "/home/julian";
   };
 
   # Add stuff for your user as you see fit:
@@ -52,51 +51,7 @@
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
-
-  programs.git = {
-    enable = true;
-
-    userEmail = "atx6419@gmail.com";
-    userName = "Jae-Heon Ji";
-
-    extraConfig = {
-      init = { defaultBranch = "main"; };
-    };
-
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        line-numbers = true;  
-      };
-    };
-  };
-
-  programs.helix = {
-    enable = true;
-
-    settings = {
-      theme = "catppuccin_mocha";
-      editor = {
-        line-number = "relative";
-        cursorline = true;
-        color-modes = true;
-        true-color = true;
-      };
-      editor.cursor-shape = {
-        insert = "bar";
-        normal = "block";
-        select = "underline";
-      };
-      editor.indent-guides = {
-        render = true;
-      };
-    };
-  };
-
-  programs.zellij =  {
-    enable = true;
-  };
+  programs.git.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

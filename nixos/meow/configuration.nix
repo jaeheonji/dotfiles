@@ -4,6 +4,7 @@
 { inputs, outputs, lib, config, pkgs, modulesPath, ... }: {
   imports = [
     inputs.nixos-wsl.nixosModules.wsl
+    inputs.home-manager.nixosModules.home-manager
 
     "${modulesPath}/profiles/minimal.nix"
   ];
@@ -44,7 +45,7 @@
 
   wsl = {
     enable = true;
-    defaultUser = "dev";
+    defaultUser = "julian";
     startMenuLaunchers = true;
     wslConf = {
       automount.root = "/mnt";
@@ -59,15 +60,22 @@
   };
 
   environment = {
-    systemPackages = with pkgs; [ git home-manager ];
+    systemPackages = with pkgs; [ home-manager ];
   };
 
   users.users = {
-    dev = {
+    julian = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
     };
   };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      julian = import ../../home-manager/julian;
+    }
+  }
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "22.11";

@@ -62,32 +62,20 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        # FIXME replace with your hostname
-        your-hostname = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main nixos configuration file <
-            ./nixos/configuration.nix
-          ];
-        };
-
+        # WSL2
         meow = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/meow/configuration.nix ];
+          modules = [ ./nixos/meow/configuration.nix ];
         };
       };
 
       # Standalone home-manager configuration entrypoint
-      # Available through 'home-manager --flake .#your-username@your-hostname'
+      # Available through 'home-manager --flake .#your-username'
       homeConfigurations = {
-        # FIXME replace with your username@hostname
-        "nixos@Meow" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        "julian" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main home-manager configuration file <
-            ./home-manager/home.nix
-          ];
+          modules = [ ./home-manager/julian/home.nix ];
         };
       };
     };
