@@ -74,8 +74,8 @@
     extraSpecialArgs = { inherit inputs; };
     users = {
       julian = import ../../home-manager/julian;
-    }
-  }
+    };
+  };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "22.11";
