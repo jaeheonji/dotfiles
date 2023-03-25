@@ -71,7 +71,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs outputs; };
     users = {
       julian = import ../../home-manager/julian/home.nix;
     };
