@@ -4,7 +4,7 @@
 
     plugins = [
       {
-        name = "catppuccin",
+        name = "catppuccin";
         src = pkgs.fetchFromGitHub {
           owner = "catppuccin";
           repo = "fish";
