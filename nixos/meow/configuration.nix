@@ -61,12 +61,14 @@
 
   environment = {
     systemPackages = with pkgs; [ home-manager ];
+    shells = with pkgs; [ fish ];
   };
 
   users.users = {
     julian = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
+      shell = pkgs.fish;
     };
   };
 
