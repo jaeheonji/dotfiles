@@ -9,7 +9,7 @@
           owner = "catppuccin";
           repo = "fish";
           rev = "main";
-          sha256 = "eeb8173a5110254b128c047849ee7f5ef5eef71758ecb69ed68a30e50a75c45f";
+          sha256 = "sha256-wQlYQyqklU/79K2OXRZXg5LvuIugK7vhHgpahpLFaOw=";
         };
       }
     ];
