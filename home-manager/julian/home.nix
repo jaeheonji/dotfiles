@@ -48,7 +48,15 @@
   };
 
   # Add stuff for your user as you see fit:
-  # home.packages = with pkgs; [ steam ];
+  home.packages = with pkgs; [
+    openssh
+
+    fd
+    ripgrep
+    ouch
+    bottom
+    onefetch
+  ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
