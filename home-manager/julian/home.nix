@@ -14,6 +14,7 @@
     ./shell.nix
     ./git.nix
     ./helix.nix   
+    ./zellij.nix
   ];
 
   nixpkgs = {
