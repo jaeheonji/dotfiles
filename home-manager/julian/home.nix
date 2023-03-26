@@ -13,6 +13,7 @@
     ./fish.nix
     ./shell.nix
     ./git.nix
+    ./bat.nix
     ./helix.nix   
     ./zellij.nix
   ];
@@ -50,16 +51,23 @@
 
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
+    # Essential tools
     openssh
 
+    # CLI tools
     fd
     ripgrep
     ouch
     bottom
     onefetch
+
+    # Programming Langauge tools
+    gcc
+    rustup
+    rust-analyzer
   ];
 
-  # Enable home-manager and git
+  # Enable home-manager
   programs.home-manager.enable = true;
 
   # Nicely reload system units when changing configs
