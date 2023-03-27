@@ -1,4 +1,9 @@
 { pkgs, ... }: {
+  imports = [
+    ./fish.nix
+    ./nushell.nix
+  ];
+
   programs = {
     zoxide = {
       enable = true;

@@ -11,12 +11,12 @@
     # inputs.nix-colors.homeManagerModules.default
 
     ./direnv.nix
-    ./fish.nix
-    ./shell.nix
     ./git.nix
     ./bat.nix
     ./helix.nix   
     ./zellij.nix
+
+    ./shell
   ];
 
   nixpkgs = {
