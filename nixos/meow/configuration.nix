@@ -38,6 +38,10 @@
       experimental-features = "nix-command flakes";
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
+      # The garbage collector will keep the outputs of non-garbage derivations
+      keep-outputs = true;
+      # The garbage collector will keep the derivations from which non-garbage store
+      keep-derivations = true;
     };
   };
 
