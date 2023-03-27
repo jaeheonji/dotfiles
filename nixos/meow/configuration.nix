@@ -59,6 +59,9 @@
     # docker-desktop.enable = true;
   };
 
+  # https://nixos.wiki/wiki/Command_Shell
+  programs.fish.enable = true;
+
   environment = {
     systemPackages = with pkgs; [ home-manager ];
     shells = with pkgs; [ fish ];
