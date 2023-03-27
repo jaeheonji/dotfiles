@@ -65,6 +65,9 @@
     gcc
     rustup
     rust-analyzer
+
+    # Container
+    docker
   ];
 
   # Enable home-manager

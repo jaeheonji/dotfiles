@@ -53,7 +53,10 @@
     };
 
     # Enable native Docker support
-    # docker-native.enable = true;
+    docker-native = {
+      enable = true;
+      addToDockerGroup = true;
+    };
 
     # Enable integration with Docker Desktop (needs to be installed)
     # docker-desktop.enable = true;
