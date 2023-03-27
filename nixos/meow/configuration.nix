@@ -43,6 +43,12 @@
       # The garbage collector will keep the derivations from which non-garbage store
       keep-derivations = true;
     };
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
 
   networking.hostName = "meow";
