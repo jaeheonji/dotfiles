@@ -1,21 +1,31 @@
 { pkgs, ... }: {
-  programs.gh.enable = true;
-  
-  programs.git = {
-    enable = true;
+  programs = {
+    gh.enable = true;
 
-    userEmail = "atx6419@gmail.com";
-    userName = "Jae-Heon Ji";
+    git = {
+      enable = true;
 
-    extraConfig = {
-      init = { defaultBranch = "main"; };
+      userEmail = "atx6419@gmail.com";
+      userName = "Jae-Heon Ji";
+
+      extraConfig = {
+        init = { defaultBranch = "main"; };
+      };
+
+      delta = {
+        enable = true;
+        options = {
+          navigate = true;
+          line-numbers = true;
+        };
+      };
     };
 
-    delta = {
+    gitui = {
       enable = true;
-      options = {
-        navigate = true;
-        line-numbers = true;
+      theme = pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/catppuccin/gitui/main/theme/mocha.ron";
+        hash = "sha256-dgZsvEI5oKhNZfmpipQiF6PDXXaUCvlrhR2ilfCMCZI=";
       };
     };
   };
