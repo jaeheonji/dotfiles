@@ -12,11 +12,9 @@
 
     ./direnv.nix
     ./git.nix
-    ./bat.nix
-    ./helix.nix   
-    ./zellij.nix
 
     ./shell
+    ./awesome
   ];
 
   nixpkgs = {
