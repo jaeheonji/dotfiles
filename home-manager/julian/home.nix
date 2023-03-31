@@ -45,31 +45,45 @@
     };
   };
 
+  # Add stuff for your user as you see fit:
   home = {
     username = "julian";
     homeDirectory = "/home/julian";
+
+    packages = with pkgs; [
+      # Essential tools
+      openssh
+
+      # CLI tools
+      fd
+      ripgrep
+      erdtree
+
+      bottom
+      zenith
+      procs
+
+      onefetch
+
+      ouch
+
+      # Programming Langauge tools
+      gcc
+      rustup
+      rust-analyzer
+
+      # Container
+      docker
+    ];
+
+    file = {
+      erdtree = {
+        source = ./config/erdtree;
+        target = ".config/erdtree";
+        recursive = true;
+      };
+    };
   };
-
-  # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [
-    # Essential tools
-    openssh
-
-    # CLI tools
-    fd
-    ripgrep
-    ouch
-    bottom
-    onefetch
-
-    # Programming Langauge tools
-    gcc
-    rustup
-    rust-analyzer
-
-    # Container
-    docker
-  ];
 
   # Enable home-manager
   programs.home-manager.enable = true;
