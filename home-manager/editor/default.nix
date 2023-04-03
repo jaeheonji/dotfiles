@@ -1,5 +1,5 @@
 { pkgs, ... }: {
   imports = [
-    ./helix.nix;
+    ./helix.nix
   ];
 }
