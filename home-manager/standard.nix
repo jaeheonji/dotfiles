@@ -10,11 +10,12 @@
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
 
-    ./direnv.nix
-    ./git.nix
-
+    ./container
+    ./dev
+    ./editor
+    ./git
     ./shell
-    ./awesome
+    ./terminal
   ];
 
   nixpkgs = {
@@ -45,42 +46,8 @@
 
   # Add stuff for your user as you see fit:
   home = {
-    username = "julian";
-    homeDirectory = "/home/julian";
-
-    packages = with pkgs; [
-      # Essential tools
-      openssh
-
-      # CLI tools
-      fd
-      ripgrep
-      erdtree
-
-      bottom
-      zenith
-      procs
-
-      onefetch
-
-      ouch
-
-      # Programming Langauge tools
-      gcc
-      rustup
-      rust-analyzer
-
-      # Container
-      docker
-    ];
-
-    file = {
-      erdtree = {
-        source = ./config/erdtree;
-        target = ".config/erdtree";
-        recursive = true;
-      };
-    };
+    username = "meow";
+    homeDirectory = "/home/meow";
   };
 
   # Enable home-manager

@@ -1,7 +1,11 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 
-{ inputs, outputs, lib, config, pkgs, modulesPath, ... }: {
+{ inputs, outputs, lib, config, pkgs, modulesPath, ... }:
+let
+  hostname = "abyssinian";
+  username = "meow";
+in {
   imports = [
     inputs.nixos-wsl.nixosModules.wsl
     inputs.home-manager.nixosModules.home-manager
@@ -51,15 +55,15 @@
     };
   };
 
-  networking.hostName = "meow";
+  networking.hostName = "${hostname}";
 
   wsl = {
     enable = true;
-    defaultUser = "julian";
+    defaultUser = "${username}";
     startMenuLaunchers = true;
     wslConf = {
       automount.root = "/mnt";
-      network.hostname = "meow";
+      network.hostname = "${hostname}";
     };
 
     # Enable native Docker support
@@ -81,7 +85,7 @@
   };
 
   users.users = {
-    julian = {
+    "${username}" = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       shell = pkgs.fish;
@@ -91,7 +95,7 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs outputs; };
     users = {
-      julian = import ../../home-manager/julian/home.nix;
+      ${username} = import ../../home-manager/standard.nix;
     };
   };
 

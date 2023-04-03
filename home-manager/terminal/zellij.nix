@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   home.file.".config/zellij" = {
-    source = ../config/zellij;
+    source = ../../config/zellij;
     recursive = true;
   };
 
