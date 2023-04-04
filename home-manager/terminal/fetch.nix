@@ -1,3 +1,3 @@
 { pkgs, ... }: {
-  home.packages = with pkgs; [ neofetch onefetch ];
+  home.packages = with pkgs; [ nitch onefetch ];
 }
