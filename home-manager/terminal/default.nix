@@ -7,5 +7,7 @@
     ./metric.nix
     ./search.nix
     ./zellij.nix
+
+    ./markdown
   ];
 }
