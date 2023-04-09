@@ -40,6 +40,7 @@ keybinds clear-defaults=true {
     move {
         bind "Ctrl h" { SwitchToMode "Normal"; }
         bind "n" "Tab" { MovePane; }
+        bind "p" { MovePaneBackwards; }
         bind "h" "Left" { MovePane "Left"; }
         bind "j" "Down" { MovePane "Down"; }
         bind "k" "Up" { MovePane "Up"; }
@@ -51,7 +52,6 @@ keybinds clear-defaults=true {
         bind "h" "Left" "Up" "k" { GoToPreviousTab; }
         bind "l" "Right" "Down" "j" { GoToNextTab; }
         bind "n" { NewTab; SwitchToMode "Normal"; }
-        // bind "w" { NewTab { name "workspace"; layout "workspace"; }; SwitchToMode "Normal"; }
         bind "x" { CloseTab; SwitchToMode "Normal"; }
         bind "s" { ToggleActiveSyncTab; SwitchToMode "Normal"; }
         bind "1" { GoToTab 1; SwitchToMode "Normal"; }
@@ -131,12 +131,14 @@ keybinds clear-defaults=true {
         bind "k" { MoveFocus "Up"; SwitchToMode "Normal"; }
         bind "o" { FocusNextPane; }
         bind "d" { Detach; }
+        bind "Space" { NextSwapLayout; }
+        bind "x" { CloseFocus; SwitchToMode "Normal"; }
     }
     shared_except "locked" {
         bind "Ctrl g" { SwitchToMode "Locked"; }
         bind "Ctrl q" { Quit; }
-        bind "Alt n" { NewPane; }
         bind "Alt x" { CloseFocus; }
+        bind "Alt n" { NewPane; }
         bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
         bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
         bind "Alt j" "Alt Down" { MoveFocus "Down"; }
@@ -158,9 +160,9 @@ keybinds clear-defaults=true {
     shared_except "scroll" "locked" {
         bind "Ctrl s" { SwitchToMode "Scroll"; }
     }
-    // shared_except "session" "locked" {
-    //     bind "Ctrl o" { SwitchToMode "Session"; }
-    // }
+    shared_except "session" "locked" {
+        bind "Ctrl o" { SwitchToMode "Session"; }
+    }
     shared_except "tab" "locked" {
         bind "Ctrl t" { SwitchToMode "Tab"; }
     }
@@ -197,21 +199,41 @@ simplified_ui true
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
 //
-// default_shell "nu"
+// default_shell "fish"
 
 // Toggle between having pane frames around the panes
 // Options:
 //   - true (default)
 //   - false
 //
-// pane_frames true
+pane_frames false
 
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
 //   - true (default)
 //   - false
 //
-// auto_layout false
+// auto_layout true
+
+// Define color themes for Zellij
+// For more examples, see: https://github.com/zellij-org/zellij/tree/main/example/themes
+// Once these themes are defined, one of them should to be selected in the "theme" section of this file
+//
+// themes {
+//     dracula {
+//         fg 248 248 242
+//         bg 40 42 54
+//         red 255 85 85
+//         green 80 250 123
+//         yellow 241 250 140
+//         blue 98 114 164
+//         magenta 255 121 198
+//         orange 255 184 108
+//         cyan 139 233 253
+//         black 0 0 0
+//         white 255 255 255
+//     }
+// }
 
 // Choose the theme that is specified in the themes section.
 // Default: default
@@ -221,7 +243,7 @@ theme "catppuccin-mocha"
 // The name of the default layout to load on startup
 // Default: "default"
 //
-default_layout "compact"
+default_layout "no-plugins"
 
 // Choose the mode that zellij uses when starting up.
 // Default: normal
