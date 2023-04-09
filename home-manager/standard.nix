@@ -48,6 +48,8 @@
   home = {
     username = "meow";
     homeDirectory = "/home/meow";
+
+    packages = with pkgs; [ nurl ];
   };
 
   # Enable home-manager
