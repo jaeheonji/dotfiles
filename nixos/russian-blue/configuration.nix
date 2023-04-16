@@ -64,6 +64,13 @@ in {
     shells = with pkgs; [ fish ];
   };
 
+  fonts = {
+    fontDir.enable = true;
+    fonts = with pkgs; [
+      (nerdfonts.override { fonts = [ "CascadiaCode" ]; })
+    ];
+  };
+
   users.users = {
     "${username}" = {
       name = "${username}";

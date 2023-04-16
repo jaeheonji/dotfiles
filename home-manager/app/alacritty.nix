@@ -15,6 +15,10 @@ in {
         option_as_alt = "OnlyLeft";
       };
 
+      font = {
+        normal.family = "CaskaydiaCove Nerd Font Mono";
+      };
+
       selection.save_to_clipboard = true;
     };
   };
