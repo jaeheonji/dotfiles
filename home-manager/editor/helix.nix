@@ -14,6 +14,7 @@
         cursorline = true;
         color-modes = true;
         true-color = true;
+        bufferline = "multiple";
       };
       editor.cursor-shape = {
         insert = "bar";
@@ -22,6 +23,12 @@
       };
       editor.indent-guides = {
         render = true;
+      };
+      editor.lsp = {
+        display-inlay-hints = true;
+      };
+      editor.soft-wrap = {
+        enable = true;
       };
     };
   };
