@@ -6,6 +6,7 @@
     ./erdtree.nix
     ./fetch.nix
     ./metric.nix
+    ./navi.nix
     ./search.nix
     ./zellij.nix
 
