@@ -59,6 +59,15 @@ in {
   # https://nixos.wiki/wiki/Command_Shell
   programs.fish.enable = true;
 
+  # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
+  homebrew = {
+    enable = true;
+    casks = [
+      "spotify"
+      "visual-studio-code"
+    ];
+  };
+
   environment = {
     systemPackages = with pkgs; [ home-manager ];
     shells = with pkgs; [ fish ];

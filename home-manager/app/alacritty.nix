@@ -11,7 +11,7 @@ in {
       env.TERM = "xterm-256color";
 
       window = {
-        decorations = "none";
+        decorations = "buttonless";
         option_as_alt = "OnlyLeft";
       };
 
