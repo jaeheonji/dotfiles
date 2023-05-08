@@ -1,0 +1,4 @@
+% sk
+
+# searching contents in currnet directory
+sk --ansi -i -c 'rg --color=always --line-number "{}"'
