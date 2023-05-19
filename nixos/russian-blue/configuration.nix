@@ -63,6 +63,7 @@ in {
   homebrew = {
     enable = true;
     casks = [
+      "firefox"
       "spotify"
       "visual-studio-code"
     ];
