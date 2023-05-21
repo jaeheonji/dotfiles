@@ -1,4 +1,0 @@
-% nix-direnv
-
-# creating a new flake-native project
-nix flake new -t github:nix-community/nix-direnv .

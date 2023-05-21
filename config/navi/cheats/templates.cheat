@@ -1,0 +1,9 @@
+% templates
+
+# creating a new flake-native project
+nix flake init -t github:nix-community/nix-direnv
+
+% templates
+
+# creating a new typescript project
+nix flake init -t github:jaeheonji/dotfiles-nix#typescript
