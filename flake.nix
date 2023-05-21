@@ -42,6 +42,9 @@
       ];
     in
     rec {
+      # Template definitions
+      templates = import ./templates;
+    
       # Your custom packages
       # Acessible through 'nix build', 'nix shell', etc
       packages = forAllSystems (system:
