@@ -1,5 +1,5 @@
 {
-  description = "Your new nix config";
+  description = "Jae-Heon's nix config";
 
   inputs = {
     # Nixpkgs
@@ -51,6 +51,7 @@
         let pkgs = nixpkgs.legacyPackages.${system};
         in import ./pkgs { inherit pkgs; }
       );
+
       # Devshell for bootstrapping
       # Acessible through 'nix develop' or 'nix-shell' (legacy)
       devShells = forAllSystems (system:
