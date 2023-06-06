@@ -76,6 +76,12 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./nixos/abyssinian/configuration.nix ];
         };
+
+        # Siamese for NixOS
+        siamese = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./nixos/siamese/configuration.nix ];
+        };
       };
 
       darwinConfigurations = {
