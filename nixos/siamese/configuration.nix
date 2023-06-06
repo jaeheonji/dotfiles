@@ -8,12 +8,12 @@ let
 in {
   # You can import other NixOS modules here
   imports = [
-    # ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
+
+    ./hardware-configuration.nix
   ];
 
   nixpkgs = {
-    hostPlatform = "x86_64-linux";
-  
     overlays = [
       # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
@@ -50,15 +50,47 @@ in {
     options = "--delete-older-than 7d";
   }
 
-  networking.hostName = "${hostname}";
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 
-  # TODO: This is just an example, be sure to use whatever bootloader you prefer
-  # boot.loader.systemd-boot.enable = true;
+  networking = {
+    hostName = "${hostname}";
+    networkmanager.enable = true;
+  };
+
+  time.timeZone = "Asia/Seoul";
+
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+  };
+
+  services.xserver = {
+    layout = "us";
+    xkbVariant = "";
+  };
+
+    # https://nixos.wiki/wiki/Command_Shell
+  programs.fish.enable = true;
+
+  environment = {
+    systemPackages = with pkgs; [ home-manager ];
+    shells = with pkgs; [ fish ];
+  };
 
   users.users = {
     "${username}" = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "networkmanager" "wheel" ];
+      shell = pkgs.fish;
+    };
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs outputs; };
+    users = {
+      ${username} = import ../../home-manager/standard.nix;
     };
   };
 
