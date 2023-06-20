@@ -9,7 +9,6 @@
       nix
       home-manager
       git
-      nodePackages.gitmoji-cli
     ];
   };
 }
