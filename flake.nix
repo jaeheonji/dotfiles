@@ -79,11 +79,22 @@
       };
 
       darwinConfigurations = {
-        # russian-blue for M1 Air
+        # Russian-blue for M1 Air
         russian-blue = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           specialArgs = { inherit inputs outputs; };
           modules = [ ./nixos/russian-blue/configuration.nix ];
+        };
+      };
+
+      # Standalone home-manager configuration entrypoint
+      # Available through 'home-manager --flake .#your-username@your-hostname'
+      homeConfigurations = {
+        # Minimal profile for x86_64 universal linux (Arch, Ubuntu etc)
+        "meow" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home-manager/minimal.nix ];
         };
       };
     };
