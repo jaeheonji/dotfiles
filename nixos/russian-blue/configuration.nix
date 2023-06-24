@@ -65,6 +65,7 @@ in {
       "firefox"
       "spotify"
       "visual-studio-code"
+      "raycast"
     ];
   };
 
