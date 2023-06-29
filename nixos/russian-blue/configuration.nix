@@ -66,6 +66,7 @@ in {
       "spotify"
       "visual-studio-code"
       "raycast"
+      "MonitorControl"
     ];
   };
 
