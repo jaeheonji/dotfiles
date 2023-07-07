@@ -4,5 +4,5 @@
     ./go.nix
   ];
 
-  home.packages = with pkgs; [ gcc devbox ];
+  home.packages = with pkgs; [ gcc ];
 }
