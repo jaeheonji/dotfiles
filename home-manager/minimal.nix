@@ -43,6 +43,13 @@
     };
   };
 
+  nix = {
+    package = pkgs.nix;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
   # Add stuff for your user as you see fit:
   home = {
     username = "meow";
