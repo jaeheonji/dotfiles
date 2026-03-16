@@ -1,0 +1,24 @@
+theme = "catppuccin_mocha"
+
+[editor]
+true-color = true
+rulers = [120]
+completion-replace = true
+trim-trailing-whitespace = true
+color-modes = true
+bufferline = "multiple"
+
+[editor.file-picker]
+hidden = true
+
+[editor.indent-guides]
+render = true
+
+[editor.inline-diagnostics]
+cursor-line = "warning"
+
+[keys.normal.space]
+q = ":quit-all"
+Q = ":quit-all!"
+x = ":bc"
+X = ":bco"
