@@ -48,15 +48,15 @@ symbol = " "
 [git_status]
 format = "[$all_status$ahead_behind]($style)"
 
-conflicted = "[=${count} ](red)"
-ahead = "[⇡${count} ](teal)"
-behind = "[⇣${count} ](peach)"
-untracked = "[?${count} ](sapphire)"
-stashed = "[$${count} ](lavender)"
-modified = "[!${count} ](yellow)"
-staged = "[+${count} ](green)"
-renamed = "[»${count} ](maroon)"
-deleted = "[✘${count} ](red)"
+conflicted = "[󰬟 ${count} ](red)"
+ahead = "[󰛃 ${count} ](teal)"
+behind = "[󰛀 ${count} ](peach)"
+untracked = "[󰄲 ${count} ](sapphire)"
+stashed = "[󰬚 ${count} ](lavender)"
+modified = "[󰏬 ${count} ](yellow)"
+staged = "[󰐖 ${count} ](green)"
+renamed = "[󰬙 ${count} ](maroon)"
+deleted = "[󰍵 ${count} ](red)"
 
 [directory]
 truncation_length = 4
