@@ -7,11 +7,7 @@ source = ./conf/envs.conf
 source = ./conf/execs.conf
 
 source = ./conf/general.conf
-
 source = ./conf/rules.conf
-
-# source = ./dms/colors.conf
-# source = ./dms/layout.conf
 
 source = ./dms/outputs.conf
 source = ./dms/cursor.conf
