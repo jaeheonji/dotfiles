@@ -1,17 +1,19 @@
 if status is-interactive
+    set -g fish_key_bindings fish_vi_key_bindings
+
     function fish_greeting
-        if test "$TERM_PROGRAM" = zed
-            echo ""
-        else
-            fastfetch --config examples/13.jsonc --kitty-icat ~/Pictures/profile-2.png \
-                --logo-width 22
-        end
+        echo ""
+        bit -char-spacing 1 -direction right -font squaresounds -color "#89b4fa" \
+            -align left -gradient "#cba6f7" -scale -1 -word-spacing 1 -line-spacing 0 \
+            "welcome!\nmeow"
     end
 
     # Environments
     set -gx EDITOR helix
     set -gx VISUAL helix
 
+    set -gx CODEX_HOME $HOME/.config/codex
+    set -gx GEMINI_CONFIG_DIR $HOME/.config/gemini
     set -gx CLAUDE_CONFIG_DIR $HOME/.config/claude
 
     # Language-specific

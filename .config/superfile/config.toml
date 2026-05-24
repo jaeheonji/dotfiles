@@ -112,7 +112,7 @@ show_select_icons = true
 #-- Transparent Background Support
 # Set to true to enable background transparency.
 # Requires: terminal support for colour transparency
-transparent_background = false
+transparent_background = true
 
 #-- File Preview Panel Width
 # Width of the file preview panel will be 1/n of the total width.

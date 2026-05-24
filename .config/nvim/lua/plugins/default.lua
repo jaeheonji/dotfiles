@@ -3,7 +3,15 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "catppuccin-nvim",
+    },
+  },
+
+  {
+    "catppuccin/nvim",
+    opts = {
+      transparent_background = true,
+      float = { transparent = true, solid = true },
     },
   },
 
