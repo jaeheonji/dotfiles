@@ -19,6 +19,7 @@
 
 $env.PATH ++= [
   "~/.local/bin"
+  "~/.cargo/bin"
   "/usr/lib/rustup/bin"
 ]
 
@@ -26,6 +27,9 @@ $env.EDITOR = "nvim"
 $env.VISUAL = "nvim"
 
 $env.CLAUDE_CONFIG_DIR = ($env.HOME | path join ".config/claude")
+$env.CODEX_HOME = ($env.HOME | path join ".config/codex")
 
 $env.NPM_CONFIG_CACHE = ($env.HOME | path join ".cache/npm")
 $env.GOPATH = ($env.HOME | path join ".local/share/go")
+
+$env.CARAPACE_BRIDGES = "zsh,fish,bash,inshellisense"
