@@ -1,5 +1,10 @@
 [flavor]
 dark = "catppuccin-mocha"
 
+[tabs]
+inactive = { bg = "reset" }
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
 [indicator]
 padding = { open = "▐", close = "▌" }
