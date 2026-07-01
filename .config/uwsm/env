@@ -1,0 +1,30 @@
+# https://wiki.hypr.land/Nvidia/#environment-variables
+export LIBVA_DRIVER_NAME=nvidia
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+
+# https://wiki.hypr.land/Nvidia/#flickering-in-electron--cef-apps
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+
+# https://wiki.hypr.land/Nvidia/#va-api-hardware-video-acceleration
+export NVD_BACKEND=direct
+
+# QT
+# https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/#qt-variables
+export QT_QPA_PLATFORM=wayland
+
+# Fcitx5
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export SDL_IM_MODULE=fcitx
+export INPUT_METHOD=fcitx
+
+# NVIDA Cache
+export CUDA_CACHE_PATH=$HOME/.cache/cuda
+export __GL_SHADER_DISK_CACHE_PATH=$HOME/.cache/nvidia
+
+# Cursor (hyprcursor & xcursor)
+# https://wiki.hypr.land/Hypr-Ecosystem/hyprcursor/
+export HYPRCURSOR_THEME=rose-pine-hyprcursor
+export HYPRCURSOR_SIZE=32
+export XCURSOR_THEME=rose-pine-hyprcursor
+export XCURSOR_SIZE=32
