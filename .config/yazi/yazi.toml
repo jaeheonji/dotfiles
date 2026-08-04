@@ -1,13 +1,17 @@
 [mgr]
-linemode = "custom"
+linemode = 'custom'
 show_hidden = true
 
 [opener]
 extract = [
-	{ run = 'ouch d -y %*', desc = "Extract here with ouch", for = "windows" },
-	{ run = 'ouch d -y "$@"', desc = "Extract here with ouch", for = "unix" },
+	{ run = 'ouch d -y %*', desc = 'Extract here with ouch', for = 'windows' },
+	{ run = 'ouch d -y "$@"', desc = 'Extract here with ouch', for = 'unix' },
 ]
 
 [[plugin.prepend_previewers]]
-mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}"
-run  = "ouch"
+mime = 'application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}'
+run  = 'ouch'
+
+[[plugin.prepend_previewers]]
+url = '*.md'
+run = 'piper -- leaf --inline ansi "$1"'

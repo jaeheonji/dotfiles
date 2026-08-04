@@ -1,4 +1,14 @@
 [[mgr.prepend_keymap]]
+on   = ['t', 'n']
+run  = 'plugin toggle-pane min-parent'
+desc = 'Show or hide the parent pane'
+
+[[mgr.prepend_keymap]]
+on   = ['t', 'm']
+run  = 'plugin toggle-pane max-preview'
+desc = 'Maximize or restore the preview pane'
+
+[[mgr.prepend_keymap]]
 on  = "M"
 run = "plugin mount"
 
