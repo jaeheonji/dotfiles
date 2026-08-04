@@ -1,5 +1,4 @@
 return {
-  -- Configure LazyVim to load catppuccin
   {
     "LazyVim/LazyVim",
     opts = {
@@ -9,9 +8,21 @@ return {
 
   {
     "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
     opts = {
       transparent_background = true,
-      float = { transparent = true, solid = true },
+      float = { transparent = true },
+    },
+  },
+
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = {
+      options = {
+        component_separators = "",
+        section_separators = " ",
+      },
     },
   },
 
@@ -40,24 +51,8 @@ return {
   },
 
   {
-    "obsidian-nvim/obsidian.nvim",
-    version = "*", -- use latest release, remove to use latest commit
-    ft = "markdown",
-    ---@module 'obsidian'
-    ---@type obsidian.config
-    opts = {
-      legacy_commands = false, -- this will be removed in the next major release
-      workspaces = {
-        {
-          name = "Vault",
-          path = "~/Documents/Vault",
-        },
-      },
-    },
-  },
-
-  {
     "christoomey/vim-tmux-navigator",
+    cond = vim.env.TERM_PROGRAM == "tmux",
     cmd = {
       "TmuxNavigateLeft",
       "TmuxNavigateDown",
