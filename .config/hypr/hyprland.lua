@@ -1,16 +1,6 @@
--- This is an example Hyprland Lua config file.
--- Refer to the wiki for more information.
--- https://wiki.hypr.land/Configuring/Start/
-
-local custom = require("custom")
-
--- Register custom layout before other configs to ensure it's available for rules and binds
-custom.layout.register()
-
-require("configs.envs")
-require("configs.execs")
-
-require("configs.general")
-require("configs.rules")
-
-require("configs.binds")
+require("config.autostart")
+require("config.keybinds")
+require("config.general")
+require("config.animations")
+require("config.layouts")
+require("config.rules")
