@@ -32,3 +32,29 @@ def --env y [...args] {
 	}
 	rm -fp $tmp
 }
+
+# oh-my-opencode-slim multiplexer integration
+def --wrapped omos [...rest: string] {
+    let eq_port = ($rest | where { $in starts-with "--port=" } | first | default "" | str replace "--port=" "")
+    let port = if ($eq_port | is-not-empty) {
+        $eq_port
+    } else {
+        let idx = ($rest | enumerate | where item == "--port" | get -o 0.index)
+        if $idx != null {
+            $rest | get -o ($idx + 1)
+        } else {
+            null
+        }
+    }
+
+    if $port != null {
+        with-env { OPENCODE_PORT: ($port | into string) } {
+            ^opencode ...$rest
+        }
+    } else {
+        let free_port = (port | into string)
+        with-env { OPENCODE_PORT: $free_port } {
+            ^opencode --port $free_port ...$rest
+        }
+    }
+}

@@ -93,7 +93,8 @@ def complete-cleanup-agent-providers [] {
   [
     {value: "claude", description: "Clean Claude cache, history, sessions, and project state"}
     {value: "codex", description: "Clean Codex cache, logs, sessions, and state files"}
-    {value: "all", description: "Run claude and codex cleanup"}
+    {value: "opencode", description: "Clean OpenCode logs, databases, storage, and state files"}
+    {value: "all", description: "Run Claude, Codex, and OpenCode cleanup"}
   ]
 }
 
@@ -210,11 +211,54 @@ def cleanup-codex [] {
   }
 }
 
+def cleanup-opencode [] {
+  let root = $env.HOME
+  let cache_dir = ($root | path join ".cache/opencode")
+  let share_dir = ($root | path join ".local/share/opencode")
+  let state_dir = ($root | path join ".local/state/opencode")
+
+  let cache_results = (cleanup-paths $root [".cache/opencode"])
+
+  let share_fixed = ["log" "repos"]
+  let share_patterns = ["opencode.db*"]
+  let state_fixed = ["locks" "frecency.jsonl" "plugin-meta.json" "prompt-history.jsonl"]
+
+  let share_fixed_results = (cleanup-paths $share_dir $share_fixed)
+  let share_glob_results = (cleanup-globs $share_dir $share_patterns)
+
+  let omos_storage_dir = ($share_dir | path join "storage/oh-my-opencode-slim")
+  let omos_results = if ($omos_storage_dir | path exists) {
+    ls -a $omos_storage_dir
+    | where { |it| ($it.name | path basename) != "bin" }
+    | each { |entry|
+        rm -rf $entry.name
+        {name: ($entry.name | path basename), path: $entry.name, kind: $entry.type}
+      }
+  } else {
+    []
+  }
+
+  let state_fixed_results = (cleanup-paths $state_dir $state_fixed)
+
+  {
+    label: "opencode"
+    root: $root
+    results: (
+      $cache_results
+      | append $share_fixed_results
+      | append $share_glob_results
+      | append $omos_results
+      | append $state_fixed_results
+    )
+  }
+}
+
 def cleanup-all [] {
   print-cleanup-summaries [
     (cleanup-pacman)
     (cleanup-claude)
     (cleanup-codex)
+    (cleanup-opencode)
   ]
 }
 
@@ -222,6 +266,7 @@ def cleanup-agent-all [] {
   print-cleanup-summaries [
     (cleanup-claude)
     (cleanup-codex)
+    (cleanup-opencode)
   ]
 }
 
@@ -237,11 +282,12 @@ def print-cleanup-usage [] {
   print "  agent         Clean agent caches and session state"
   print ""
   print $"(ansi default_bold)Options:(ansi reset)"
-  print "  -a, --all     Run pacman, claude, and codex cleanup"
+  print "  -a, --all     Run pacman, Claude, Codex, and OpenCode cleanup"
   print ""
   print $"(ansi default_bold)Examples:(ansi reset)"
   print "  cleanup pacman"
   print "  cleanup agent codex"
+  print "  cleanup agent opencode"
   print "  cleanup agent --all"
   print "  cleanup --all"
 }
@@ -256,14 +302,16 @@ def print-agent-usage [] {
   print $"(ansi default_bold)Providers:(ansi reset)"
   print "  claude        Clean Claude cache, history, sessions, and project state"
   print "  codex         Clean Codex cache, logs, sessions, and state files"
-  print "  all           Run claude and codex cleanup"
+  print "  opencode      Clean OpenCode logs, databases, storage, and state files"
+  print "  all           Run Claude, Codex, and OpenCode cleanup"
   print ""
   print $"(ansi default_bold)Options:(ansi reset)"
-  print "  -a, --all     Run claude and codex cleanup"
+  print "  -a, --all     Run Claude, Codex, and OpenCode cleanup"
   print ""
   print $"(ansi default_bold)Examples:(ansi reset)"
   print "  cleanup agent claude"
   print "  cleanup agent codex"
+  print "  cleanup agent opencode"
   print "  cleanup agent --all"
 }
 
@@ -302,6 +350,10 @@ export def agent [
     }
     "codex" => {
       let summary = (cleanup-codex)
+      print-cleanup-summary $summary.label $summary.root $summary.results
+    }
+    "opencode" => {
+      let summary = (cleanup-opencode)
       print-cleanup-summary $summary.label $summary.root $summary.results
     }
     "all" => { cleanup-agent-all }

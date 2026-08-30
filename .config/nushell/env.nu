@@ -29,7 +29,11 @@ $env.VISUAL = "nvim"
 $env.CLAUDE_CONFIG_DIR = ($env.HOME | path join ".config/claude")
 $env.CODEX_HOME = ($env.HOME | path join ".config/codex")
 
+$env.OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS = true
+$env.OPENCODE_ENABLE_EXA = 1
+
 $env.NPM_CONFIG_CACHE = ($env.HOME | path join ".cache/npm")
 $env.GOPATH = ($env.HOME | path join ".local/share/go")
 
 $env.CARAPACE_BRIDGES = "zsh,fish,bash,inshellisense"
+$env.HERDR_LOG = "herdr=off"
