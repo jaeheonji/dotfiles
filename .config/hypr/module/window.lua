@@ -61,4 +61,20 @@ function M.resize(opts)
   end
 end
 
+---Toggle global border size between 0 and `size` (default 2).
+---@param size? number
+---@return function dispatcher
+function M.toggle_border(size)
+  size = size or 2
+  return function()
+    local current = hl.get_config("general.border_size")
+    local target = (current == 0 or current == nil) and size or 0
+    hl.config({
+      general = {
+        border_size = target,
+      },
+    })
+  end
+end
+
 return M

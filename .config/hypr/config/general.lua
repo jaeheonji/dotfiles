@@ -11,6 +11,11 @@ hl.config({
     gaps_in = 0,
     gaps_out = 0,
 
+    col = {
+      active_border = catppuccin.blue,
+      inactive_border = catppuccin.surface0,
+    },
+
     snap = {
       enabled = true,
     },
