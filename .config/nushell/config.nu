@@ -22,6 +22,26 @@ use modules/cleanup.nu
 # My Handy Aliases
 alias lg = lazygit
 
+# Integration for oh-my-opencode-slim 
+def --wrapped omos [...args] {
+	let inline_port = ($args | where {|arg| $arg | str starts-with "--port=" } | first | default null)
+	let given_port = if $inline_port != null {
+		$inline_port | str replace "--port=" ""
+	} else {
+		let flag = ($args | enumerate | where item == "--port" | first | get -o index)
+		if $flag != null { $args | get -o ($flag + 1) }
+	}
+
+	let opencode_port = if ($given_port | is-empty) { port } else { $given_port }
+	with-env { OPENCODE_PORT: $opencode_port } {
+		if ($given_port | is-empty) {
+			^opencode --port $opencode_port ...$args
+		} else {
+			^opencode ...$args
+		}
+	}
+}
+
 # Launch yazi and cd into the directory it exits to
 def --env y [...args] {
   let tmp = (mktemp -t "yazi-cwd.XXXXXX")
@@ -31,30 +51,4 @@ def --env y [...args] {
 		cd $cwd
 	}
 	rm -fp $tmp
-}
-
-# oh-my-opencode-slim multiplexer integration
-def --wrapped omos [...rest: string] {
-    let eq_port = ($rest | where { $in starts-with "--port=" } | first | default "" | str replace "--port=" "")
-    let port = if ($eq_port | is-not-empty) {
-        $eq_port
-    } else {
-        let idx = ($rest | enumerate | where item == "--port" | get -o 0.index)
-        if $idx != null {
-            $rest | get -o ($idx + 1)
-        } else {
-            null
-        }
-    }
-
-    if $port != null {
-        with-env { OPENCODE_PORT: ($port | into string) } {
-            ^opencode ...$rest
-        }
-    } else {
-        let free_port = (port | into string)
-        with-env { OPENCODE_PORT: $free_port } {
-            ^opencode --port $free_port ...$rest
-        }
-    }
 }

@@ -24,13 +24,14 @@ def format-total [results: list] {
   }
 }
 
-def format-targets [root: string, results: list] {
+def format-targets [root: any, results: list] {
   $results
   | each { |row|
-      let rel = if $root == "system" {
+      let result_root = if "root" in $row { $row.root } else { $root }
+      let rel = if $result_root == "system" {
         $row.path
       } else {
-        $row.path | str replace ($root + "/") ""
+        $row.path | str replace ($result_root + "/") ""
       }
       let colored_name = match $row.kind {
         "dir" => { $"(ansi blue)($rel)(ansi reset)" }
@@ -43,7 +44,7 @@ def format-targets [root: string, results: list] {
   | reject _kind _rel
 }
 
-def cleanup-summary-row [label: string, root: string, results: list] {
+def cleanup-summary-row [label: string, root: any, results: list] {
   {
     Provider: $label
     Root: $root
@@ -52,7 +53,7 @@ def cleanup-summary-row [label: string, root: string, results: list] {
   }
 }
 
-def cleanup-all-summary-row [label: string, root: string, results: list] {
+def cleanup-all-summary-row [label: string, root: any, results: list] {
   {
     Provider: $label
     Root: $root
@@ -61,7 +62,7 @@ def cleanup-all-summary-row [label: string, root: string, results: list] {
   }
 }
 
-def print-cleanup-summary [label: string, root: string, results: list] {
+def print-cleanup-summary [label: string, root: any, results: list] {
   if ($results | is-empty) {
     if $label == "pacman" {
       print $"(ansi green)No orphaned packages to remove.(ansi reset)"
@@ -76,10 +77,11 @@ def print-cleanup-summary [label: string, root: string, results: list] {
 def print-cleanup-summaries [summaries: list] {
   let rows = (
     $summaries
+    | compact
     | each { |summary| cleanup-all-summary-row $summary.label $summary.root $summary.results }
   )
 
-  print ($rows | table -e)
+  if not ($rows | is-empty) { print ($rows | table -e) }
 }
 
 def complete-cleanup-targets [] {
@@ -93,8 +95,9 @@ def complete-cleanup-agent-providers [] {
   [
     {value: "claude", description: "Clean Claude cache, history, sessions, and project state"}
     {value: "codex", description: "Clean Codex cache, logs, sessions, and state files"}
-    {value: "opencode", description: "Clean OpenCode logs, databases, storage, and state files"}
-    {value: "all", description: "Run Claude, Codex, and OpenCode cleanup"}
+    {value: "opencode", description: "Clean OpenCode cache, logs, repositories, snapshots, and state"}
+    {value: "omp", description: "Clean Oh My Pi caches, logs, runs, and session state"}
+    {value: "all", description: "Run Claude, Codex, OpenCode, and OMP cleanup"}
   ]
 }
 
@@ -105,7 +108,7 @@ def cleanup-paths [root: string, names: list] {
       if ($p | path exists) {
         let kind = ($p | path type)
         rm -rf $p
-        {name: $name, path: $p, kind: $kind}
+        {name: $name, path: $p, kind: $kind, root: $root}
       }
     }
   | compact
@@ -119,12 +122,16 @@ def cleanup-globs [root: string, patterns: list] {
           if ($p | path exists) {
             let kind = ($p | path type)
             rm -rf $p
-            {name: ($p | path basename), path: $p, kind: $kind}
+            {name: ($p | path basename), path: $p, kind: $kind, root: $root}
           }
         }
     }
   | flatten
   | compact
+}
+
+def agent-unavailable [binary: string, root: string] {
+  (which $binary | is-empty) or (($root | path type) != "dir")
 }
 
 def cleanup-pacman [] {
@@ -146,6 +153,8 @@ def cleanup-claude [] {
   } else {
     $env.HOME | path join ".claude"
   }
+
+  if (agent-unavailable "claude" $claude_dir) { return null }
 
   let fixed = [
     "backups" "cache" "file-history" "plans" "projects" "session-env" "sessions" "shell-snapshots"
@@ -193,13 +202,17 @@ def cleanup-codex [] {
     $env.HOME | path join ".config/codex"
   }
 
+  if (agent-unavailable "codex" $codex_dir) { return null }
+
   let fixed = [
     "cache" "sessions" "shell_snapshots" "tmp" ".tmp"
-    "history.jsonl" "models_cache.json"
+    "history.jsonl" "models_cache.json" "session_index.jsonl"
+    "thread-writer-locks"
   ]
 
   let patterns = [
     "goals_*.sqlite*" "logs_*.sqlite*" "memories_*.sqlite*" "state_*.sqlite*"
+    "queue_*.sqlite*" "thread_history_*.sqlite*"
   ]
 
   let fixed_results = (cleanup-paths $codex_dir $fixed)
@@ -212,44 +225,74 @@ def cleanup-codex [] {
 }
 
 def cleanup-opencode [] {
-  let root = $env.HOME
-  let cache_dir = ($root | path join ".cache/opencode")
-  let share_dir = ($root | path join ".local/share/opencode")
-  let state_dir = ($root | path join ".local/state/opencode")
+  let cache_home = if "XDG_CACHE_HOME" in $env { $env.XDG_CACHE_HOME } else { $env.HOME | path join ".cache" }
+  let data_home = if "XDG_DATA_HOME" in $env { $env.XDG_DATA_HOME } else { $env.HOME | path join ".local/share" }
+  let state_home = if "XDG_STATE_HOME" in $env { $env.XDG_STATE_HOME } else { $env.HOME | path join ".local/state" }
+  let cache_dir = ($cache_home | path join "opencode")
+  let data_dir = ($data_home | path join "opencode")
+  let state_dir = ($state_home | path join "opencode")
 
-  let cache_results = (cleanup-paths $root [".cache/opencode"])
-
-  let share_fixed = ["log" "repos"]
-  let share_patterns = ["opencode.db*"]
-  let state_fixed = ["locks" "frecency.jsonl" "plugin-meta.json" "prompt-history.jsonl"]
-
-  let share_fixed_results = (cleanup-paths $share_dir $share_fixed)
-  let share_glob_results = (cleanup-globs $share_dir $share_patterns)
-
-  let omos_storage_dir = ($share_dir | path join "storage/oh-my-opencode-slim")
-  let omos_results = if ($omos_storage_dir | path exists) {
-    ls -a $omos_storage_dir
-    | where { |it| ($it.name | path basename) != "bin" }
-    | each { |entry|
-        rm -rf $entry.name
-        {name: ($entry.name | path basename), path: $entry.name, kind: $entry.type}
-      }
-  } else {
-    []
+  if (which opencode | is-empty) or ([$cache_dir $data_dir $state_dir] | all {|dir| ($dir | path type) != "dir"}) {
+    return null
   }
 
-  let state_fixed_results = (cleanup-paths $state_dir $state_fixed)
+  let cache_results = (cleanup-paths $cache_home ["opencode"])
+  let data_results = (cleanup-paths $data_dir ["log" "repos" "snapshot" "tool-output"])
+  let data_glob_results = (cleanup-globs $data_dir ["storage/oh-my-opencode-slim/*" "opencode.db*"])
+  let state_results = (cleanup-paths $state_dir ["locks" "plugin-meta.json" "session.json" "prompt-history.jsonl" "frecency.jsonl"])
 
   {
     label: "opencode"
-    root: $root
-    results: (
-      $cache_results
-      | append $share_fixed_results
-      | append $share_glob_results
-      | append $omos_results
-      | append $state_fixed_results
-    )
+    root: {cache: $cache_dir, data: $data_dir, state: $state_dir}
+    results: ($cache_results | append $data_results | append $data_glob_results | append $state_results)
+  }
+}
+
+def cleanup-omp [] {
+  let omp_dir = if "PI_CONFIG_DIR" in $env {
+    if ($env.PI_CONFIG_DIR | str starts-with "/") {
+      $env.PI_CONFIG_DIR
+    } else if ($env.PI_CONFIG_DIR | str starts-with "~") {
+      $env.PI_CONFIG_DIR | path expand
+    } else {
+      $env.HOME | path join $env.PI_CONFIG_DIR
+    }
+  } else {
+    $env.HOME | path join ".config/omp"
+  }
+
+  if (agent-unavailable "omp" $omp_dir) { return null }
+
+  let omp_data_dir = if "XDG_DATA_HOME" in $env {
+    $env.XDG_DATA_HOME | path join "omp"
+  } else {
+    $env.HOME | path join ".local/share/omp"
+  }
+
+  let fixed = [
+    "run"
+    "cache"
+    "logs"
+    "agent/cache"
+    "agent/terminal-sessions"
+  ]
+
+  let data_fixed = [
+    "sessions"
+  ]
+
+  let data_patterns = [
+    "history.db*"
+  ]
+
+  let fixed_results = (cleanup-paths $omp_dir $fixed)
+  let data_fixed_results = (cleanup-paths $omp_data_dir $data_fixed)
+  let data_glob_results = (cleanup-globs $omp_data_dir $data_patterns)
+
+  {
+    label: "omp"
+    root: {config: $omp_dir, data: $omp_data_dir}
+    results: ($fixed_results | append $data_fixed_results | append $data_glob_results)
   }
 }
 
@@ -259,6 +302,7 @@ def cleanup-all [] {
     (cleanup-claude)
     (cleanup-codex)
     (cleanup-opencode)
+    (cleanup-omp)
   ]
 }
 
@@ -267,6 +311,7 @@ def cleanup-agent-all [] {
     (cleanup-claude)
     (cleanup-codex)
     (cleanup-opencode)
+    (cleanup-omp)
   ]
 }
 
@@ -282,12 +327,13 @@ def print-cleanup-usage [] {
   print "  agent         Clean agent caches and session state"
   print ""
   print $"(ansi default_bold)Options:(ansi reset)"
-  print "  -a, --all     Run pacman, Claude, Codex, and OpenCode cleanup"
+  print "  -a, --all     Run pacman, Claude, Codex, OpenCode, and OMP cleanup"
   print ""
   print $"(ansi default_bold)Examples:(ansi reset)"
   print "  cleanup pacman"
   print "  cleanup agent codex"
   print "  cleanup agent opencode"
+  print "  cleanup agent omp"
   print "  cleanup agent --all"
   print "  cleanup --all"
 }
@@ -302,16 +348,18 @@ def print-agent-usage [] {
   print $"(ansi default_bold)Providers:(ansi reset)"
   print "  claude        Clean Claude cache, history, sessions, and project state"
   print "  codex         Clean Codex cache, logs, sessions, and state files"
-  print "  opencode      Clean OpenCode logs, databases, storage, and state files"
-  print "  all           Run Claude, Codex, and OpenCode cleanup"
+  print "  opencode      Clean OpenCode cache, logs, repositories, snapshots, and state"
+  print "  omp           Clean Oh My Pi caches, logs, runs, and session state"
+  print "  all           Run Claude, Codex, OpenCode, and OMP cleanup"
   print ""
   print $"(ansi default_bold)Options:(ansi reset)"
-  print "  -a, --all     Run Claude, Codex, and OpenCode cleanup"
+  print "  -a, --all     Run Claude, Codex, OpenCode, and OMP cleanup"
   print ""
   print $"(ansi default_bold)Examples:(ansi reset)"
   print "  cleanup agent claude"
   print "  cleanup agent codex"
   print "  cleanup agent opencode"
+  print "  cleanup agent omp"
   print "  cleanup agent --all"
 }
 
@@ -346,15 +394,19 @@ export def agent [
   match $provider {
     "claude" => {
       let summary = (cleanup-claude)
-      print-cleanup-summary $summary.label $summary.root $summary.results
+      if $summary != null { print-cleanup-summary $summary.label $summary.root $summary.results }
     }
     "codex" => {
       let summary = (cleanup-codex)
-      print-cleanup-summary $summary.label $summary.root $summary.results
+      if $summary != null { print-cleanup-summary $summary.label $summary.root $summary.results }
     }
     "opencode" => {
       let summary = (cleanup-opencode)
-      print-cleanup-summary $summary.label $summary.root $summary.results
+      if $summary != null { print-cleanup-summary $summary.label $summary.root $summary.results }
+    }
+    "omp" => {
+      let summary = (cleanup-omp)
+      if $summary != null { print-cleanup-summary $summary.label $summary.root $summary.results }
     }
     "all" => { cleanup-agent-all }
     null => { print-agent-usage }
