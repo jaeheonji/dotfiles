@@ -237,14 +237,16 @@ def cleanup-opencode [] {
   }
 
   let cache_results = (cleanup-paths $cache_home ["opencode"])
-  let data_results = (cleanup-paths $data_dir ["log" "repos" "snapshot" "tool-output"])
-  let data_glob_results = (cleanup-globs $data_dir ["storage/oh-my-opencode-slim/*" "opencode.db*"])
-  let state_results = (cleanup-paths $state_dir ["locks" "plugin-meta.json" "session.json" "prompt-history.jsonl" "frecency.jsonl"])
+  let data_results = (cleanup-paths $data_dir ["log" "repos" "shell" "storage" "snapshot" "tool-output"])
+  let state_results = (cleanup-paths $state_dir [
+    "latest" "locks"
+    "prompt-history.jsonl"
+  ])
 
   {
     label: "opencode"
     root: {cache: $cache_dir, data: $data_dir, state: $state_dir}
-    results: ($cache_results | append $data_results | append $data_glob_results | append $state_results)
+    results: ($cache_results | append $data_results | append $state_results)
   }
 }
 
@@ -263,36 +265,24 @@ def cleanup-omp [] {
 
   if (agent-unavailable "omp" $omp_dir) { return null }
 
-  let omp_data_dir = if "XDG_DATA_HOME" in $env {
-    $env.XDG_DATA_HOME | path join "omp"
-  } else {
-    $env.HOME | path join ".local/share/omp"
-  }
-
   let fixed = [
-    "run"
-    "cache"
-    "logs"
+    "run" "cache" "logs"
     "agent/cache"
     "agent/terminal-sessions"
+    "agent/sessions"
   ]
 
-  let data_fixed = [
-    "sessions"
-  ]
-
-  let data_patterns = [
-    "history.db*"
+  let patterns = [
+    "agent/history.db*"
   ]
 
   let fixed_results = (cleanup-paths $omp_dir $fixed)
-  let data_fixed_results = (cleanup-paths $omp_data_dir $data_fixed)
-  let data_glob_results = (cleanup-globs $omp_data_dir $data_patterns)
+  let glob_results = (cleanup-globs $omp_dir $patterns)
 
   {
     label: "omp"
-    root: {config: $omp_dir, data: $omp_data_dir}
-    results: ($fixed_results | append $data_fixed_results | append $data_glob_results)
+    root: $omp_dir
+    results: ($fixed_results | append $glob_results)
   }
 }
 

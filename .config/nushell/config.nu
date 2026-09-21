@@ -22,26 +22,6 @@ use modules/cleanup.nu
 # My Handy Aliases
 alias lg = lazygit
 
-# Integration for oh-my-opencode-slim 
-def --wrapped omos [...args] {
-	let inline_port = ($args | where {|arg| $arg | str starts-with "--port=" } | first | default null)
-	let given_port = if $inline_port != null {
-		$inline_port | str replace "--port=" ""
-	} else {
-		let flag = ($args | enumerate | where item == "--port" | first | get -o index)
-		if $flag != null { $args | get -o ($flag + 1) }
-	}
-
-	let opencode_port = if ($given_port | is-empty) { port } else { $given_port }
-	with-env { OPENCODE_PORT: $opencode_port } {
-		if ($given_port | is-empty) {
-			^opencode --port $opencode_port ...$args
-		} else {
-			^opencode ...$args
-		}
-	}
-}
-
 # Launch yazi and cd into the directory it exits to
 def --env y [...args] {
   let tmp = (mktemp -t "yazi-cwd.XXXXXX")
