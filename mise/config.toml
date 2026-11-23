@@ -1,0 +1,5 @@
+[settings.dotfiles]
+root = "{{ config_source | dirname }}/.."
+
+[bootstrap]
+dotfile_groups = ["nushell", "yazi"]

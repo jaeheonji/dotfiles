@@ -1,0 +1,6 @@
+[dotfiles]
+"~/.config/noctalia/config.toml" = { source = "../config-extra/desktop/noctalia/config.toml", mode = "symlink" }
+
+[bootstrap.packages]
+"pacman:noctalia" = "latest"
+"dnf:noctalia" = "latest"

@@ -1,0 +1,13 @@
+[mgr]
+linemode = "size_and_mtime"
+show_hidden = true
+
+[[plugin.prepend_previewers]]
+mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}"
+run  = "ouch"
+
+[opener]
+extract = [
+	{ run = 'ouch d -y %s', desc = "Extract here with ouch", for = "windows" },
+	{ run = 'ouch d -y %s', desc = "Extract here with ouch", for = "unix" },
+]

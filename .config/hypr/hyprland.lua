@@ -1,6 +1,0 @@
-require("config.autostart")
-require("config.keybinds")
-require("config.general")
-require("config.animations")
-require("config.layouts")
-require("config.rules")
