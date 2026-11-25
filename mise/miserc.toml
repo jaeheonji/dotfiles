@@ -1,0 +1,2 @@
+[env_sets]
+umbriel-desktop = ["fonts", "kitty", "noctalia", "umbriel"]

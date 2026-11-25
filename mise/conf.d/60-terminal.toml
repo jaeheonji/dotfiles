@@ -1,0 +1,9 @@
+[bootstrap.packages]
+"pacman:kitty" = { env = "kitty" }
+"dnf:kitty" = { env = "kitty" }
+"brew-cask:kitty" = { env = "kitty", os = "macos" }
+
+[dotfiles."~/.config/kitty/kitty.conf"]
+source = "../../config-extra/terminal/kitty/kitty.conf"
+mode = "copy"
+variants = [{ profile = "kitty" }]

@@ -1,3 +1,12 @@
+[bootstrap.packages]
+"pacman:yazi" = "latest"
+"pacman:ouch" = "latest"
+"brew:yazi" = { os = "macos" }
+"brew:ouch" = { os = "macos" }
+
+[bootstrap.hooks]
+post-dotfiles = "ya pkg install"
+
 [dotfile_groups.yazi]
 root = "config/yazi"
 target = "~/.config/yazi"
@@ -7,9 +16,3 @@ exclude = ["/theme.toml", "/package.toml"]
 [dotfiles]
 "~/.config/yazi/theme.toml" = { source = "../../config/yazi/theme.toml", mode = "symlink" }
 "~/.config/yazi/package.toml" = { source = "../../config/yazi/package.toml", mode = "symlink" }
-
-[bootstrap.packages]
-yazi = "latest"
-
-[bootstrap.hooks]
-post-dotfiles = "ya pkg install"

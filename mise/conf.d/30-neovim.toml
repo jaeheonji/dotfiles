@@ -1,0 +1,11 @@
+[bootstrap.packages]
+neovim = "latest"
+
+[dotfile_groups.neovim]
+root = "config/nvim"
+target = "~/.config/nvim"
+mode = "symlink-each"
+exclude = ["/lua/plugins/colorscheme.lua"]
+
+[dotfiles]
+"~/.config/nvim/lua/plugins/colorscheme.lua" = { source = "../../config/nvim/lua/plugins/colorscheme.lua", mode = "symlink" }

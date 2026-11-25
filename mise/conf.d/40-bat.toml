@@ -1,0 +1,8 @@
+[bootstrap.packages]
+bat = "latest"
+
+[bootstrap.hooks]
+post-dotfiles = "bat cache --build"
+
+[dotfiles]
+"~/.config/bat" = { source = "../../config/bat", mode = "symlink-each" }

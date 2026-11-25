@@ -2,17 +2,17 @@
 order = [ "default" ]
 
     [bar.default]
-    background_opacity = 0.84999999999999998
+    background_opacity = 0.85
     capsule = true
     capsule_padding = 8.0
     capsule_radius = 6
     center = [ "cpu", "ram", "temp" ]
     end = [ "audio_visualizer", "tray", "privacy", "group:g1", "volume", "battery", "group:g2", "notifications", "session" ]
-    font_scale = 0.95999999999999996
+    font_scale = 0.96
     margin_ends = 0
     padding = 15
     position = "left"
-    scale = 1.1000000000000001
+    scale = 1.1
     start = [ "control-center", "bar", "workspaces" ]
     thickness = 50
     widget_spacing = 7
@@ -45,13 +45,13 @@ connection_notifications = true
 
 [brightness]
 enable_scheduled_brightness = true
-scheduled_night_brightness = 0.48999999999999999
+scheduled_night_brightness = 0.49
 
 [control_center]
 width = 900
 
 [dock]
-background_opacity = 0.84999999999999998
+background_opacity = 0.85
 
 [location]
 auto_locate = true
@@ -79,7 +79,7 @@ widget_order = [ "lockscreen-login-box@DP-1" ]
 
         [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
         background_color = "surface_container"
-        background_opacity = 0.84999999999999998
+        background_opacity = 0.85
         background_radius = 12.0
         center_password_text = false
         input_opacity = 1.0
@@ -99,10 +99,10 @@ widget_order = [ "lockscreen-login-box@DP-1" ]
 enabled = true
 
 [notification]
-background_opacity = 0.84999999999999998
+background_opacity = 0.85
 
 [osd]
-background_opacity = 0.84999999999999998
+background_opacity = 0.85
 position = "bottom_center"
 position_vertical = "bottom_center"
 
@@ -173,5 +173,5 @@ stat = "ram_pct"
 stat = "gpu_temp"
 
 [widget.workspaces]
-font_scale = 1.3999999999999999
+font_scale = 1.4
 style = "minimal"
