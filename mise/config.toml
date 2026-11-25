@@ -1,0 +1,37 @@
+[settings.dotfiles]
+# Use the repo root (one level above mise/) for dotfile source lookup and relative group roots.
+root = "{{ config_source | dirname }}/.."
+
+[bootstrap]
+dotfile_groups = ["nushell", "yazi", "neovim"]
+
+[bootstrap.packages]
+"pacman:starship" = "latest"
+"brew:starship" = { os = "macos" }
+zoxide = "latest"
+
+[bootstrap.hooks.post-dotfiles]
+description = "Generate Starship and zoxide integrations for Nushell"
+run = '''
+set -eu
+
+autoload=$(nu --no-config-file -c '$nu.data-dir | path join "vendor/autoload/" | print -n')
+test -n "$autoload"
+mkdir -p "$autoload"
+
+generate() (
+  name=$1
+  shift
+  tmp=$(mktemp "$autoload/.${name}.XXXXXX")
+  trap 'rm -f "$tmp"' EXIT
+  "$@" > "$tmp"
+  test -s "$tmp"
+  mv -f "$tmp" "$autoload/$name.nu"
+)
+
+generate starship starship init nu
+generate zoxide zoxide init nushell
+'''
+
+[dotfiles]
+"~/.config/starship.toml" = { source = "../config/starship.toml", mode = "copy" }

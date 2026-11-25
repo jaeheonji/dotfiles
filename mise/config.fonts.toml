@@ -1,0 +1,8 @@
+[bootstrap.packages]
+# Arch Linux (AUR)
+"aur:ttf-pretendard" = "latest"
+"aur:ttf-geist" = "latest"
+"aur:maplemono-nf" = "latest"
+
+# macOS (Homebrew)
+"brew-cask:font-maple-mono-nf" = { os = "macos" }

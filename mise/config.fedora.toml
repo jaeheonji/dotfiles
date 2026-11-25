@@ -1,0 +1,4 @@
+[tools]
+starship = "latest"
+yazi = "latest"
+"aqua:ouch-org/ouch" = "latest"

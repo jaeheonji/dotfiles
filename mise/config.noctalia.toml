@@ -1,0 +1,23 @@
+[bootstrap.packages]
+"pacman:noctalia" = "latest"
+"dnf:noctalia" = "latest"
+
+[dotfiles]
+# Noctalia desktop settings
+"~/.config/noctalia/config.toml" = { source = "../config-extra/desktop/noctalia/config.toml", mode = "symlink" }
+
+# Leave bat and lazygit configs unmanaged in this profile
+"~/.config/bat" = { enabled = false }
+"~/.config/lazygit/config.yml" = { enabled = false }
+
+# Noctalia colorscheme for LazyVim
+"~/.config/nvim/lua/plugins/colorscheme.lua" = { source = "../config-extra/desktop/noctalia/template/lazyvim/colorscheme.lua", mode = "symlink" }
+
+# Noctalia fzf theme for Nushell
+[dotfiles."~/.config/nushell/autoload/90-noctalia.nu"]
+source = "../config-extra/desktop/noctalia/template/fzf/90-noctalia.nu"
+mode = "symlink"
+variants = [
+  { os = "linux", target = "~/.config/nushell/autoload/90-noctalia.nu" },
+  { os = "macos", target = "~/Library/Application Support/nushell/autoload/90-noctalia.nu" },
+]

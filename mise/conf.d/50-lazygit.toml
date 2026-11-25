@@ -1,0 +1,12 @@
+[bootstrap.packages]
+lazygit = "latest"
+
+[dotfiles."~/.config/lazygit/config.yml"]
+source = "../../config/lazygit/config.yml"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/Library/Application Support/lazygit/config.yml"]
+source = "../../config/lazygit/config.yml"
+mode = "symlink"
+variants = [{ os = "macos" }]

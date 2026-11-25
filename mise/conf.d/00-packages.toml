@@ -1,0 +1,6 @@
+[bootstrap.packages]
+dust = { names = { dnf = "du-dust" } }
+fd = { names = { dnf = "fd-find" } }
+fzf = "latest"
+jq = "latest"
+ripgrep = "latest"

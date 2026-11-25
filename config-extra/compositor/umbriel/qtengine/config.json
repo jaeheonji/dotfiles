@@ -1,0 +1,13 @@
+{
+  "theme": {
+    "colorScheme": "~/.local/share/color-schemes/noctalia.colors",
+    "font": {
+      "family": "Geist",
+      "size": 11
+    },
+    "fontFixed": {
+      "family": "Maple Mono NF",
+      "size": 11
+    }
+  }
+}

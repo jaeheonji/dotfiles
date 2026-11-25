@@ -1,0 +1,16 @@
+ARG MISE_VERSION=2026.11.12
+FROM ghcr.io/jdx/mise:${MISE_VERSION} AS mise
+
+FROM docker.io/library/archlinux:latest
+RUN pacman -Syu --noconfirm --needed git \
+    && rm -f /var/cache/pacman/pkg/*.pkg.tar.*
+COPY --from=mise /usr/local/bin/mise /usr/local/bin/mise
+
+WORKDIR /opt/dotfiles
+ENV MISE_TRUSTED_CONFIG_PATHS=/opt/dotfiles
+COPY config/ config/
+COPY config-extra/ config-extra/
+COPY mise/ mise/
+
+RUN mise config
+CMD ["/bin/bash"]

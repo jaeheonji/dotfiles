@@ -1,0 +1,15 @@
+ARG MISE_VERSION=2026.11.12
+FROM ghcr.io/jdx/mise:${MISE_VERSION} AS mise
+
+FROM registry.fedoraproject.org/fedora:44
+RUN dnf -y install git-core && dnf clean all
+COPY --from=mise /usr/local/bin/mise /usr/local/bin/mise
+
+WORKDIR /opt/dotfiles
+ENV MISE_TRUSTED_CONFIG_PATHS=/opt/dotfiles
+COPY config/ config/
+COPY config-extra/ config-extra/
+COPY mise/ mise/
+
+RUN mise config
+CMD ["/bin/bash"]

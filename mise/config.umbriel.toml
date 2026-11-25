@@ -1,0 +1,8 @@
+[bootstrap.packages]
+"pacman:chaotic-aur/umbriel-git" = "latest"
+"aur:qtengine" = "latest"
+
+[dotfiles]
+"~/.config/umbriel/config.toml" = { source = "../config-extra/compositor/umbriel/config.toml", mode = "symlink" }
+"~/.config/environment.d/20-umbriel.conf" = { source = "../config-extra/compositor/umbriel/environment.d/20-umbriel.conf", mode = "symlink" }
+"~/.config/qtengine/config.json" = { source = "../config-extra/compositor/umbriel/qtengine/config.json", mode = "symlink" }

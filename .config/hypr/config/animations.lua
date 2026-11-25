@@ -1,4 +1,0 @@
---------------------
----- ANIMATIONS ----
---------------------
--- Refer to https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
