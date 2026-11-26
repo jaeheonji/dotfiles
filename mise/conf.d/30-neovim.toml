@@ -5,7 +5,7 @@ neovim = "latest"
 root = "config/nvim"
 target = "~/.config/nvim"
 mode = "symlink-each"
-exclude = ["/lua/plugins/colorscheme.lua"]
+exclude = ["/lua/plugins/colorscheme.lua", "/lazy-lock.json"]
 
 [dotfiles]
 "~/.config/nvim/lua/plugins/colorscheme.lua" = { source = "../../config/nvim/lua/plugins/colorscheme.lua", mode = "symlink" }

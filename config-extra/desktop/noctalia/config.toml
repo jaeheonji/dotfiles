@@ -110,7 +110,7 @@ position_vertical = "bottom_center"
 mini_placement = "attached"
 
 [plugins]
-enabled = [ "noctalia/notes", "noctalia/umbriel-companion", "aabidk20/yt-music" ]
+enabled = [ "noctalia/notes", "noctalia/umbriel-companion" ]
 
 [shell]
 font_family = "Geist"

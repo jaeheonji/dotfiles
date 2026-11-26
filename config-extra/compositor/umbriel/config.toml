@@ -169,7 +169,6 @@ numlock_toggle = true
 "Mod+Y" = "spawn noctalia msg panel-toggle wallpaper"
 "Mod+V" = "spawn noctalia msg panel-toggle clipboard"
 "Mod+N" = "spawn noctalia msg panel-toggle noctalia/notes:panel"
-"Mod+M" = "spawn noctalia msg panel-toggle aabidk20/yt-music:panel"
 
 # Media, volume and brightness keys from any input device, routed through the
 # Noctalia shell so its OSDs show. Safe while the session is locked.
@@ -214,7 +213,7 @@ numlock_toggle = true
 "Mod+Alt+H" = "window-consume-or-expel-left"
 "Mod+Alt+L" = "window-consume-or-expel-right"
 # Needs layout.mode = "dwindle".
-# "Mod+Alt+T" = "layout-toggle-split"
+"Mod+Alt+T" = "layout-toggle-split"
 "Mod+W" = { action = "column-toggle-tabbed", repeat = false }
 "Mod+bracketleft" = "column-focus-tab-next"
 "Mod+bracketright" = "column-focus-tab-previous"
