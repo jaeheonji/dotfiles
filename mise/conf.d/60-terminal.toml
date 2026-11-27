@@ -1,4 +1,0 @@
-[bootstrap.packages]
-"pacman:kitty" = { env = "kitty" }
-"dnf:kitty" = { env = "kitty" }
-"brew-cask:kitty" = { env = "kitty", os = "macos" }

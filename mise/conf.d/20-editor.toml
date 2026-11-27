@@ -1,5 +1,9 @@
 [bootstrap.packages]
 neovim = "latest"
+bat = "latest"
+
+[bootstrap.hooks]
+post-dotfiles = "bat cache --build"
 
 [dotfile_groups.neovim]
 root = "config/nvim"
@@ -10,3 +14,4 @@ exclude = ["/lua/plugins/colorscheme.lua", "/lazy-lock.json", "/lazyvim.json"]
 [dotfiles]
 "~/.config/nvim/lazyvim.json/shared" = { source = "../../config/nvim/lazyvim.json", merge = "missing" }
 "~/.config/nvim/lua/plugins/colorscheme.lua" = { source = "../../config/nvim/lua/plugins/colorscheme.lua", mode = "symlink" }
+"~/.config/bat" = { source = "../../config/bat", mode = "symlink-each" }

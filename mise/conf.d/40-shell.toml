@@ -1,0 +1,45 @@
+[bootstrap.packages]
+nushell = "latest"
+"pacman:starship" = "latest"
+"brew:starship" = { os = "macos" }
+zoxide = "latest"
+
+[bootstrap.hooks.post-dotfiles]
+description = "Generate Starship and zoxide integrations for Nushell"
+run = '''
+set -eu
+
+autoload=$(nu --no-config-file -c '$nu.data-dir | path join "vendor/autoload/" | print -n')
+test -n "$autoload"
+mkdir -p "$autoload"
+
+generate() (
+  name=$1
+  shift
+  tmp=$(mktemp "$autoload/.${name}.XXXXXX")
+  trap 'rm -f "$tmp"' EXIT
+  "$@" > "$tmp"
+  test -s "$tmp"
+  mv -f "$tmp" "$autoload/$name.nu"
+)
+
+generate starship starship init nu
+generate zoxide zoxide init nushell
+'''
+
+[dotfile_groups.nushell]
+root = "config/nushell"
+# Deploy this tree through the OS-specific entry.
+exclude = ["/*"]
+
+[dotfile_groups.nushell.entries.config]
+source = "."
+mode = "symlink-each"
+variants = [
+  { os = "linux", target = "~/.config/nushell" },
+  { os = "macos", target = "~/Library/Application Support/nushell" },
+]
+
+[dotfiles]
+"~/.config/starship.toml/shared" = { source = "../../config/starship.toml", merge = true }
+"~/.config/starship.toml/palette" = { source = "../../config/starship-palette.toml", merge = "missing" }

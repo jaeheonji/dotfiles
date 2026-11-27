@@ -1,3 +1,8 @@
+[bootstrap.packages]
+"pacman:kitty" = "latest"
+"dnf:kitty" = "latest"
+"brew-cask:kitty" = { os = "macos" }
+
 [dotfiles."~/.config/kitty/kitty.conf/shared"]
 source = "../config-extra/terminal/kitty/kitty.conf"
 template = "tera"

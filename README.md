@@ -51,7 +51,7 @@ mise -E fedora exec -- mise -E fedora bootstrap
 │   ├── desktop/            # Noctalia settings and theme integrations
 │   └── terminal/           # Kitty terminal settings
 ├── mise/                   # Bootstrap and deployment configuration
-│   ├── conf.d/             # Package lists and dotfile deployment rules
+│   ├── conf.d/             # Base packages and app configs, grouped by category
 │   ├── config.toml         # Base bootstrap settings
 │   ├── config.*.toml       # Profile-specific settings
 │   └── miserc.toml         # Named profile sets
@@ -63,6 +63,10 @@ mise -E fedora exec -- mise -E fedora bootstrap
 ## Available Profiles
 
 Select one or more profiles with `-E`, for example `-E kitty,fonts`.
+
+The base setup loads the numbered fragments in `mise/conf.d/`. Shared CLI
+packages live in `00-packages.toml`. The other fragments keep each category's
+packages, dotfiles, and hooks together. Optional setups live in profile files.
 
 | Profile | What it adds |
 | --- | --- |
