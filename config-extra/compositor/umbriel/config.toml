@@ -197,12 +197,15 @@ numlock_toggle = true
 "Mod+Ctrl+L" = "window-swap-right"
 
 # Window state and layout
+"Mod+backslash" = { action = "workspace-set-layout toggle", repeat = false }
+"Mod+Shift+backslash" = { action = "workspace-set-layout toggle scrolling stacking master dwindle", repeat = false }
 "Mod+T" = { action = "window-toggle-floating", repeat = false }
 "Mod+C" = { action = "column-center", repeat = false }
 "Mod+Shift+C" = { action = "window-center", repeat = false }
 "Mod+Shift+T" = { action = "window-focus-switch-floating", repeat = false }
 # "Mod+P" = { action = "window-toggle-pinned", repeat = false }
 "Mod+F" = { action = "window-toggle-maximize", repeat = false }
+"Mod+Alt+F" = { action = "window-toggle-maximize-to-edges", repeat = false }
 "Mod+Shift+F" = { action = "window-toggle-fullscreen", repeat = false }
 "Mod+R" = "window-cycle-primary-extent"
 "Mod+Shift+R" = "window-cycle-primary-extent-back"
