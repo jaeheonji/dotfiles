@@ -1,5 +1,3 @@
-palette = "catppuccin_mocha"
-
 # Palette definitions
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"

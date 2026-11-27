@@ -2,6 +2,9 @@
 # Use the repo root (one level above mise/) for dotfile source lookup and relative group roots.
 root = "{{ config_source | dirname }}/.."
 
+[settings.write_targets]
+tools = "{{ config_source | dirname }}/config.local.toml"
+
 [bootstrap]
 dotfile_groups = ["nushell", "yazi", "neovim"]
 
@@ -34,4 +37,5 @@ generate zoxide zoxide init nushell
 '''
 
 [dotfiles]
-"~/.config/starship.toml" = { source = "../config/starship.toml", mode = "copy" }
+"~/.config/starship.toml/shared" = { source = "../config/starship.toml", merge = true }
+"~/.config/starship.toml/palette" = { source = "../config/starship-palette.toml", merge = "missing" }

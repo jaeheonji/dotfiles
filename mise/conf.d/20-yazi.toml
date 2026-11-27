@@ -14,5 +14,5 @@ mode = "symlink-each"
 exclude = ["/theme.toml", "/package.toml"]
 
 [dotfiles]
-"~/.config/yazi/theme.toml" = { source = "../../config/yazi/theme.toml", mode = "symlink" }
-"~/.config/yazi/package.toml" = { source = "../../config/yazi/package.toml", mode = "symlink" }
+"~/.config/yazi/theme.toml/shared" = { source = "../../config/yazi/theme.toml", merge = true }
+"~/.config/yazi/package.toml/shared" = { source = "../../config/yazi/package.toml", merge = true }

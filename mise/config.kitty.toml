@@ -1,0 +1,3 @@
+[dotfiles."~/.config/kitty/kitty.conf/shared"]
+source = "../config-extra/terminal/kitty/kitty.conf"
+template = "tera"
